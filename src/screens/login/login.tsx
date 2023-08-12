@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import tw from 'twrnc';
 import React, {useState} from 'react';
+import {useLinkTo} from '@react-navigation/native';
 
 interface FormData {
   password: string;
@@ -23,10 +24,12 @@ export default function LoginScreen() {
   });
   const [rememberme, setRememberme] = useState<boolean>(false);
 
+  const linkTo = useLinkTo();
+
   const handleSubmit = () => {
     // Aquí puedes manejar la lógica de envío del formulario
     console.log('Form Data:', formData);
-    console.log('Remember me:', rememberme)
+    console.log('Remember me:', rememberme);
   };
 
   return (
@@ -53,10 +56,10 @@ export default function LoginScreen() {
           <View style={tw`flex flex-row items-center justify-between`}>
             <View style={tw`flex flex-row justify-center items-center`}>
               <TouchableOpacity
-                style={tw`border-2 border-gray-200 rounded-lg py-2 px-2 mx-2 my-4 ${rememberme ? 'bg-emerald-700' : ''}`}
-                onPress={() =>
-                  setRememberme(!rememberme)
-                }></TouchableOpacity>
+                style={tw`border-2 border-gray-200 rounded-lg py-2 px-2 mx-2 my-4 ${
+                  rememberme ? 'bg-emerald-700' : ''
+                }`}
+                onPress={() => setRememberme(!rememberme)}></TouchableOpacity>
               <Text style={tw`text-center`}>Recordame</Text>
             </View>
             <Text style={tw`text-center text-blue-500`}>
@@ -74,10 +77,12 @@ export default function LoginScreen() {
         <View style={tw``}>
           <Text style={tw`text-center`}>¿Todavia no tienes una cuenta?</Text>
           <TouchableOpacity
-            onPress={() => console.log('Crear cuenta')}
+            onPress={() => {
+              linkTo('/register');
+            }}
             style={tw``}>
             <Text style={tw`text-center text-sm my-4 underline`}>
-                Crea una ahora
+              Crea una ahora
             </Text>
           </TouchableOpacity>
         </View>

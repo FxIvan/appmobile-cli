@@ -66,7 +66,6 @@ export default function RegisterScreen() {
               secureTextEntry={true}
               style={tw`border-2 border-gray-200 rounded-lg py-1 px-2 my-4`}
             />
-
             <TouchableOpacity
               onPress={handleSubmit}
               style={tw`bg-sky-700 py-2 rounded-lg my-4`}>
@@ -76,13 +75,13 @@ export default function RegisterScreen() {
             </TouchableOpacity>
           </View>
           <View style={tw``}>
-            <Text style={tw`text-center`}>¿Ya tienes cuenta?</Text>
+            <Text style={tw`text-lg text-center`}>¿Ya tienes cuenta?</Text>
             <TouchableOpacity
               onPress={() => {
                 linkTo('/login');
               }}
               style={tw``}>
-              <Text style={tw`text-center text-sm my-4 underline`}>
+              <Text style={tw`text-center text-lg my-4 underline`}>
                 Ingresa
               </Text>
             </TouchableOpacity>

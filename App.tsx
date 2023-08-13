@@ -2,6 +2,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import LoginScreen from './src/screens/login/login';
 import RegisterScreen from './src/screens/register/register';
+import ChatScreen from './src/screens/chat/chat';
 
 const Stack = createNativeStackNavigator();
 
@@ -17,6 +18,11 @@ function App(): JSX.Element {
         <Stack.Screen
           name="register"
           component={RegisterScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="chat"
+          component={ChatScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

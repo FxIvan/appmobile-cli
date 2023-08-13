@@ -27,7 +27,6 @@ export default function LoginScreen() {
   const linkTo = useLinkTo();
 
   const handleSubmit = () => {
-    // Aquí puedes manejar la lógica de envío del formulario
     console.log('Form Data:', formData);
     console.log('Remember me:', rememberme);
   };
@@ -75,15 +74,25 @@ export default function LoginScreen() {
           </TouchableOpacity>
         </View>
         <View style={tw``}>
-          <Text style={tw`text-center`}>¿Todavia no tienes una cuenta?</Text>
+          <Text style={tw`text-lg text-center`}>
+            ¿Todavia no tienes una cuenta?
+          </Text>
           <TouchableOpacity
             onPress={() => {
               linkTo('/register');
             }}
             style={tw``}>
-            <Text style={tw`text-center text-sm my-4 underline`}>
+            <Text style={tw`text-center text-lg my-4 underline`}>
               Crea una ahora
             </Text>
+          </TouchableOpacity>
+          {/*Borrar esto, lleva a chat */}
+          <TouchableOpacity
+            onPress={() => {
+              linkTo('/chat');
+            }}
+            style={tw``}>
+            <Text style={tw`text-center text-lg my-4 underline`}>Chat</Text>
           </TouchableOpacity>
         </View>
       </View>

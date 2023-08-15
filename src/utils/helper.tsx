@@ -34,6 +34,10 @@ class WSService {
   on(event: string, cb: any) {
     this.socket?.on(event, cb);
   }
+
+  off(event: string, cb: any) {
+    this.socket?.off(event, cb);
+  }
   removeListener(event: string) {
     this.socket?.removeListener(event);
   }

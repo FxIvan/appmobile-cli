@@ -9,14 +9,15 @@ import {
   View,
   FlatList,
   Alert,
+  ScrollView,
 } from 'react-native';
 import tw from 'twrnc';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {useLinkTo} from '@react-navigation/native';
-import {io, Socket} from 'socket.io-client';
 import socketService from '../../utils/helper';
 
 interface Message {
+  id: number;
   message: string;
 }
 
@@ -24,39 +25,43 @@ export default function ChatScreen() {
   const [message, setMessage] = useState('');
   const [data, setData] = useState<Message[]>([]);
 
-  useEffect(() => {
-    socketService.on('received_message', (args: string) => {
-      console.log('received_message', args);
-      setData([...data, {message: args}]);
-    });
-  }, []);
-
-  useEffect(() => {
-    console.log(data);
-    console.log('Message-->', message);
-  }, [data, message]);
+  const scrollViewRef = useRef<ScrollView>(null);
 
   useEffect(() => {
     socketService.initializeSocket();
   }, []);
 
+  //useEffect(() => {
+  socketService.on('received_message', (args: string) => {
+    try {
+      //setData(prevData => [...prevData, {id: Date.now(), message: args}]);
+      setData([...data, {id: Date.now(), message: args}]); //asi funciona pero lento
+    } catch (error) {
+      console.log('error', error);
+    }
+  });
+  //},[]);
+
   const handleSendMessage = (message: string) => {
     socketService.emit('send_message', message);
-    setData([...data, {message}]);
+    setMessage('');
+    scrollViewRef.current?.scrollToEnd({animated: true});
   };
 
   const linkTo = useLinkTo();
 
   return (
-    <SafeAreaView style={tw`w-11/12 mx-auto`}>
+    <SafeAreaView style={tw`w-11/12 py-4 mx-auto`}>
       <View style={styles.containerLogin}>
-        {data.map((val, i) => {
-          return (
-            <View key={i}>
+        <ScrollView
+          contentContainerStyle={styles.messagesContainer}
+          ref={scrollViewRef}>
+          {data.map((val, id) => (
+            <View key={id} style={styles.message}>
               <Text>{val.message}</Text>
             </View>
-          );
-        })}
+          ))}
+        </ScrollView>
         <TextInput
           value={message}
           onChangeText={text => setMessage(text)}
@@ -72,5 +77,16 @@ const styles = StyleSheet.create({
   containerLogin: {
     height: '100%',
     justifyContent: 'space-evenly',
+  },
+  messagesContainer: {
+    flexGrow: 1,
+    paddingBottom: 10,
+  },
+  message: {
+    backgroundColor: '#ECECEC',
+    borderRadius: 10,
+    padding: 10,
+    marginVertical: 5,
+    maxWidth: '80%',
   },
 });

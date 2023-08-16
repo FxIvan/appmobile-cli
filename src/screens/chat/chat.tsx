@@ -30,17 +30,17 @@ export default function ChatScreen() {
   useEffect(() => {
     socketService.initializeSocket();
   }, []);
-
-  //useEffect(() => {
-  socketService.on('received_message', (args: string) => {
-    try {
-      //setData(prevData => [...prevData, {id: Date.now(), message: args}]);
-      setData([...data, {id: Date.now(), message: args}]); //asi funciona pero lento
-    } catch (error) {
-      console.log('error', error);
-    }
-  });
-  //},[]);
+  useEffect(() => {
+    setTimeout(() => {
+      socketService.on('received_message', (args: string) => {
+        try {
+          setData(prevData => [...prevData, {id: Date.now(), message: args}]);
+        } catch (error) {
+          console.log('error', error);
+        }
+      });
+    }, 500);
+  }, []);
 
   const handleSendMessage = (message: string) => {
     socketService.emit('send_message', message);
